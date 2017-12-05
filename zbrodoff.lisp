@@ -176,7 +176,7 @@
 
 (define-model zbrodoff
     
-(sgp :v nil :esc t :lf 0.4 :bll 0.5 :ans 0.5 :rt 0 :ncnar nil)
+(sgp :v t :esc t :lf 0.4 :bll 0.5 :ans 0.5 :rt 0 :ncnar nil)
 
 (sgp :show-focus t)
 
@@ -201,7 +201,7 @@
  (i ISA sequence identity "i" next "j")
  (j ISA sequence identity "j" next "k")
  (goal isa goal)
- (attending) (count) (counting))
+ (attending) (recall-test) (count) (counting))
 
 (P attend
    =goal>
@@ -216,7 +216,8 @@
    +visual>
       cmd         move-attention
       screen-pos  =visual-location
-)
+      )
+
 
 (P read-first
    =goal>
@@ -229,7 +230,7 @@
      state      free
    ?imaginal>
      buffer     empty
-     state      free   
+     state      free
 ==>
    +vocal>
      cmd         subvocalize
@@ -394,11 +395,9 @@
      state       free
    ==>
    +goal>
-     
    +manual>
      cmd         press-key
      key         "k"
-   
 )
 
 (P final-answer-no
@@ -417,13 +416,81 @@
    ?manual>
      state       free
    ==>
-   +goal>
-     
+   +goal>     
    +manual>
      cmd         press-key
      key         "d"
    
-)
+     )
+
+(P probe-chunk
+   "Hijacks the counting procedure and starts the recalling process."
+   =goal>
+     ISA	goal
+     state      count
+   =imaginal>
+     isa         problem
+     arg1        =char1
+     arg2        =inc
+   =retrieval>
+   ==>
+   ;;Using the buffer on the RHS prevents ACT-R from clearing it.
+   =imaginal>
+   =goal>
+     ISA	goal
+     state	recall-test
+   ;; Do a request to the DM
+   +retrieval>
+     ISA	problem
+     arg1	=char1
+     arg2	=inc
+     )
+
+(P recall-possible
+   "Recalls the correct chunk and sets the imaginal 
+    buffer chunk to reflect the retrieved chunk."
+   =goal>
+     ISA	goal
+     state	recall-test
+   =retrieval>
+     ISA	problem
+     result	=res
+     arg1	=char1
+     arg2	=inc
+   =imaginal>
+     isa         problem
+     arg1        =char1
+     arg2        =inc
+     ==>
+   ; Make the retrieval buffer persist.
+   =retrieval>
+   =goal>
+     ISA	goal
+     count	=inc
+     target	=res
+     state	nil
+   ;Set the imaginal buffer chunk values so
+   ;that the final-answer-* procedures get fired.
+   =imaginal>
+     ISA	problem
+     arg1	=char1
+     arg2	=inc
+     result	=res
+     )
+
+(P no-recall-possible
+   "Gets fired when no chunk can be retrieved from DM. 
+    Starts the counting process."
+   =goal>
+     ISA	goal
+     state	recall-test
+   ?retrieval>
+     buffer	failure
+   ==>
+   =goal>
+     ISA	goal
+     state	count
+   )
 
 (set-all-base-levels 100000 -1000)
 (goal-focus goal)
