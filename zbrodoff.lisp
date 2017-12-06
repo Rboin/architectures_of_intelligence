@@ -176,7 +176,7 @@
 
 (define-model zbrodoff
     
-(sgp :v nil :esc t :lf 0.4 :bll 0.5 :ans 0.5 :rt 0 :ncnar nil)
+(sgp :v nil :esc t :lf 0.3 :bll 0.5 :ans 0.3 :rt 0.4 :ncnar nil)
 
 (sgp :show-focus t)
 
