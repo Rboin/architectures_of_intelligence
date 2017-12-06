@@ -176,11 +176,11 @@
 
 (define-model zbrodoff
     
-(sgp :v t :esc t :lf 0.4 :bll 0.5 :ans 0.5 :rt 0 :ncnar nil)
+(sgp :v nil :esc t :lf 0.4 :bll 0.5 :ans 0.5 :rt 0 :ncnar nil)
 
 (sgp :show-focus t)
 
-(chunk-type problem arg1 arg2 result)
+(chunk-type problem arg1 arg2 result probed)
 (chunk-type goal state count target)
 (chunk-type sequence identity next)
 
@@ -296,7 +296,7 @@
      string      =char
    =goal>
      target      =char
-     state       count
+     state       probing
    +visual>
      cmd         clear
 )
@@ -420,30 +420,32 @@
    +manual>
      cmd         press-key
      key         "d"
-   
      )
 
-(P probe-chunk
-   "Hijacks the counting procedure and starts the recalling process."
+(P test-memory
    =goal>
      ISA	goal
-     state      count
+     state      probing
+     target	=tar
    =imaginal>
      isa         problem
      arg1        =char1
      arg2        =inc
-   =retrieval>
    ==>
-   ;;Using the buffer on the RHS prevents ACT-R from clearing it.
    =imaginal>
+     ISA	problem
+     ;; Create a new property to hold the expected result.
+     ;; Used to retrieve the chunk from DM.
+     expected	=tar
    =goal>
      ISA	goal
      state	recall-test
-   ;; Do a request to the DM
+     ;; Do a request to the DM
    +retrieval>
      ISA	problem
      arg1	=char1
      arg2	=inc
+     expected	=tar     
      )
 
 (P recall-possible
@@ -452,29 +454,25 @@
    =goal>
      ISA	goal
      state	recall-test
-   =retrieval>
-     ISA	problem
-     result	=res
-     arg1	=char1
-     arg2	=inc
+     target	=tar
    =imaginal>
      isa         problem
      arg1        =char1
      arg2        =inc
-     ==>
-   ; Make the retrieval buffer persist.
    =retrieval>
+     ISA	problem
+     expected	=tar
+     result	=res
+     arg1	=char1
+     arg2	=inc
+     ==>
    =goal>
      ISA	goal
      count	=inc
-     target	=res
-     state	nil
-   ;Set the imaginal buffer chunk values so
-   ;that the final-answer-* procedures get fired.
+   ;; Set the imaginal buffer chunk value so
+   ;; that the final-answer-* procedures get fired.
    =imaginal>
      ISA	problem
-     arg1	=char1
-     arg2	=inc
      result	=res
      )
 
