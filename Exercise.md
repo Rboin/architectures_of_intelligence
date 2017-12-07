@@ -1,4 +1,4 @@
-#Unit Exercise: Alpha-Arithmetic
+# Unit Exercise: Alpha-Arithmetic
 
 The following data were obtained by N. J. Zbrodoff on judging alphabetic arithmetic problems. Participants were presented with an equation like A + 2 = C and had to respond yes or no whether the equation was correct based on counting in the alphabet – the preceding equation is correct, but B + 3 = F is not.
 
@@ -135,7 +135,7 @@ This sets the base-level activation of all the chunks in declarative memory that
 
 Finally, because this experiment involves a lot of trials and you need to run several experiments to get the average results of the model there are some additional things that can be done to improve the performance of the software simulation itself i.e. the real time it takes to run the model through the experiment not the simulated time the model reports for doing the task. Probably the most important will be to turn off the model’s trace by setting the :v parameter to **nil**. The starting model has that setting, but while you are testing and debugging your addition of a retrieval process you will probably want to turn it back on by setting it to **t** so that you can see what is happening in your model. Something else which you will want to do when running the whole experiment is to close any open inspector tools in the ACT-R Environment because they update with every change to ACT-R and thus will slow down the running of the system. One final thing which can be done is to compile the model file to improve the performance of the Lisp code which performs the task itself. Some Lisp systems do this automatically (Clozure Common Lisp for example does) but many do not. Doing so in a Lisp which does not automatically compile may result in a further reduction in the time it takes to run the experiment. Some details on how to compile a model file and potential problems to be careful of when doing so can be found in the experiment document for this unit.
 
-##References
+## References
 
 Anderson, J.R. (1981). Interference: The relationship between response latency and response accuracy. *Journal of Experimental Psychology: Human Learning and Memory, 7*, 326-343.
 
