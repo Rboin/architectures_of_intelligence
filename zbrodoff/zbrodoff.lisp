@@ -1,3 +1,10 @@
+#| addition-model.lisp
+Architectures of Intelligence Assignment 2
+Authors:
+Robin Koning (S2998254)
+Ramon Meffert (S2702207)
+|#
+
 (defvar *trials*)
 (defvar *results*)
 (defvar *start-time*)
@@ -175,7 +182,7 @@
 (clear-all)
 
 (define-model zbrodoff
-    
+
 (sgp :v nil :esc t :lf 0.3 :bll 0.5 :ans 0.3 :rt 0.4 :ncnar nil)
 
 (sgp :show-focus t)
@@ -204,6 +211,7 @@
  (attending) (recall-test) (count) (counting))
 
 (P attend
+   "Attends the next item in the visual buffer."
    =goal>
       ISA         goal
       state       nil
@@ -220,6 +228,7 @@
 
 
 (P read-first
+   "Reads the first item from the visual buffer."
    =goal>
      ISA         goal
      state       attending
@@ -248,6 +257,7 @@
 
 
 (P read-second
+   "Reads the second item from the visual buffer."
    =goal>
      ISA         goal
      state       attending
@@ -275,6 +285,7 @@
 
 
 (P read-third
+   "Reads the third item from the visual buffer."
    =goal>
      ISA         goal
      state       attending
@@ -303,6 +314,7 @@
 
 
 (P start-counting
+   "Starts the counting process and makes a request to DM to retrieve a counting fact."
    =goal>
      ISA         goal
      state       count
@@ -329,6 +341,7 @@
 )
 
 (P update-result
+   "Uses the retrieved counting fact to update the result value in the imaginal buffer."
    =goal>
      ISA         goal
      count       =val
@@ -354,6 +367,7 @@
 )
 
 (P update-count
+   "Updates the count value in the goal buffer using the retrieved counting fact."
    =goal>
      ISA         goal
      count       =val
@@ -380,6 +394,7 @@
 
 
 (P final-answer-yes
+   "Compares the imaginal buffer to the goal buffer and presses the K key."
    =goal>
      ISA         goal
      target      =let
@@ -401,6 +416,7 @@
 )
 
 (P final-answer-no
+   "Makes sure that the imaginal buffer and goal buffer are not equal, and presses the D key."
     =goal>
      ISA         goal
      count       =val
@@ -423,6 +439,7 @@
      )
 
 (P test-memory
+   "Tests the DM on whether there is a chunk corresponding to the problem in the imaginal buffer."
    =goal>
      ISA	goal
      state      probing

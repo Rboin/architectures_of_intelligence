@@ -1,0 +1,88 @@
+\documentclass[11pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{enumerate}
+
+\title{Architectures of Intelligence \\ Homework 2}
+\author{Ramon Meffert (S2702207) \\ Robin Koning (S2998254)}
+\date{\today}
+
+
+\begin{document}
+\maketitle{}
+\newpage
+
+\section{Our output}
+CORRELATION:  0.990\\
+MEAN DEVIATION:  0.102\\
+
+\begin{tabular}{c|c|c|c}
+  &2 (64)&3 (64)&4 (64)\\
+  \hline
+  Block 1&2.026 (64)&2.396 (64)&2.853 (64)\\
+  Block 2&1.230 (64)&1.293 (64)&1.346 (64)\\
+  Block 3&1.062 (64)&1.096 (64)&1.107 (64)
+  
+\end{tabular}
+
+\section{A}
+\textbf{What is the effect of manipulating the parameters below.}
+
+We've compared the results below to the default settings given in the zbrodoff.lisp file.
+\begin{enumerate}
+\item Retrieval threshold
+  \begin{enumerate}
+  \item [-1]: As we lower the RT, the correlation value increases and the mean deviation increases (from the default values).
+  \item [0]: This is the default value for RT.
+  \item [1]: Correlation increases and deviation decreases.
+  \item [2]: Correlation decreases greatly and deviation almost doubled.
+  \item [3]: This has the same result as setting it to 2.
+  \item [4]: Results in an error at the third block. The deviation shows no difference to setting it to 3.
+  \end{enumerate}
+\item Latency Factor
+  \begin{enumerate}
+  \item [0.1]: Deviation decreases.
+  \item [0.5]: Deviation decreases again and correlation increases slightly.
+  \item [0.9]: Correlation increases slightly, deviation still decreases.
+  \item [1.4]: Deviation increases greatly (from 0.9).
+    \item [2.0]: Deviation doubled (from 1.4).
+    \end{enumerate}
+  \item Activation noise
+    \begin{enumerate}
+    \item [0.1]: Correlation decreases slightly (from the default value).
+    \item [0.3]: Deviation increases (from 0.1).
+    \item [0.5]: This is the default value given.
+      \item [0.8]: Deviation approaches the deviation resulting form setting it to 0.5.
+      \end{enumerate}
+\end{enumerate}
+
+\section{B}
+\textbf{Would it be possible to implement such a parallel strategy in ACT-R?
+If yes, what would such a model look like? If no, why is it not
+possible?}
+
+Yes, ACT-R does support `threaded cognition' see:\\
+(https://www.cs.drexel.edu/~salvucci/threads.php).  A model that uses
+threaded cognition would have to fire both the counting and retrieval
+productions, each on a different thread. Another production rule would
+then have to wait for buffer stuffing and return the result of either
+threads as soon as the production gets fired.
+
+\section{C}
+\textbf{If you think about how the brain processes information, do you think
+it could do counting and retrieval in parallel? What would be
+requirement for this?}
+
+It seems impossible to retrieve previously activated chunks while also
+counting at the same time, as you would have to interrupt the counting
+process to retrieve the relevant chunk of information. But there could
+be a situation where you are counting and suddenly remember the
+outcome of the given problem.  \\
+A requirement could be that you would need to retrieve a tree of
+information, instead of a single chunk, that you traverse while
+counting at the same time.
+
+\end{document}
+
