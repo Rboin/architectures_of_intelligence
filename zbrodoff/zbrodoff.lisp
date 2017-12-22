@@ -1,4 +1,4 @@
-#| addition-model.lisp
+#| zbrodoff.lisp
 Architectures of Intelligence Assignment 2
 Authors:
 Robin Koning (S2998254)
