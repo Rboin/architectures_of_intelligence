@@ -237,7 +237,7 @@
   (sgp :esc t :bll .5 :ol t :sim-hook number-sims :er t :lf 0)
   
   ;; adjust these as needed
-  (sgp :v nil :ans .2 :mp 10.0 :rt -60)
+  (sgp :v nil :trace-detail medium :ans .2 :mp 10.0 :rt -60)
   
   ;; create a device for the model to interact with
   
@@ -250,7 +250,7 @@
   ;; This chunk-type should be modified to contain the information needed
   ;; for your model's learning strategy
   
-  (chunk-type learned-info mc1 action)
+  (chunk-type learned-info mc1 mc2 mresult action)
   
   ;; Declare the slots used for the goal buffer since it is
   ;; not set in the model defintion or by the productions.
@@ -308,21 +308,26 @@
      
      @retrieval>)
   
-  
   (p results-should-hit
      =goal>
        isa game-state
        state results
        mresult =outcome
        MC1 =c
+       mc2 =c2
+       
+       otot =o
+       < mtot =o
      ?imaginal>
        state free
     ==>
      !output! (I =outcome)
      =goal>
        state nil
-     +imaginal>
-       MC1 =c 
+     +imaginal>  
+       MC1 =c
+       mc2 =c2
+       mresult =outcome
        action "h")
 
   (spp results-should-hit :u 10)
@@ -334,6 +339,9 @@
        state results
        mresult =outcome
        MC1 =c
+       mc2 =c2
+;       mtot =mt
+;       < otot =mt
      ?imaginal>
        state free
     ==>
@@ -341,8 +349,11 @@
      =goal>
        state nil
      +imaginal>
-       MC1 =c 
-       action "s") 
+       MC1 =c
+       mc2 =c2
+       mresult =outcome
+       action "s")
+
   
   (p clear-new-imaginal-chunk
      ?imaginal>
