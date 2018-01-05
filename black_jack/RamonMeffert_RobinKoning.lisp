@@ -249,7 +249,8 @@
   
   ;; This chunk-type should be modified to contain the information needed
   ;; for your model's learning strategy
-  
+
+  ;; Added the mc2 variable
   (chunk-type learned-info mc1 mc2 mresult action)
   
   ;; Declare the slots used for the goal buffer since it is
@@ -263,19 +264,26 @@
     
       
   (p start
+     "Checks the DM if there is a chunk where the model's first two
+      cards match. If so, it puts this chunk in the retrieval buffer to be
+      used in the remember-game production."
      =goal>
        isa game-state
        state start
        MC1 =c
+       mc2 =c2
     ==>
      =goal>
        state retrieving
      +retrieval>
        isa learned-info
        MC1 =c
+       mc2 =c2
      - action nil)
 
   (p cant-remember-game
+     "Fired is there is no chunk in the retrieval buffer. If there is
+      no learned information, the model simply stays."
      =goal>
        isa game-state
        state retrieving
@@ -291,6 +299,9 @@
        key "s")
   
   (p remember-game
+     "Is fired if there is a suitable chunk in the retrieval
+      buffer. Presses the key saved in the chunk which it learned from
+      the results-should-* productions."
      =goal>
        isa game-state
        state retrieving
@@ -309,6 +320,8 @@
      @retrieval>)
   
   (p results-should-hit
+     "Naive hitting strategy.  The model simply decides to hit if the
+      models hand value < the opponent's hand value."
      =goal>
        isa game-state
        state results
@@ -317,7 +330,7 @@
        mc2 =c2
        
        otot =o
-       < mtot =o
+       < mtot =o ;; Check whether our total hand < opponent hand
      ?imaginal>
        state free
     ==>
@@ -334,14 +347,15 @@
 
   
   (p results-should-stay
+     "This production is fired in the case that the model decides to
+      not hit. This happens in the case that the model's total hand
+      value > the opponent's hand value."
      =goal>
        isa game-state
        state results
        mresult =outcome
        MC1 =c
        mc2 =c2
-;       mtot =mt
-;       < otot =mt
      ?imaginal>
        state free
     ==>
@@ -356,6 +370,7 @@
 
   
   (p clear-new-imaginal-chunk
+     "Clears the imaginal buffer at the end of the model's turn."
      ?imaginal>
        state free
        buffer full
