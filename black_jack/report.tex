@@ -43,8 +43,8 @@ ACTION & The action belonging to that choice.\\
 \end{tabular}
 \\~\\
 MC1 and MC2 are used to retrieve a more accurate (instead of just MC1)
-game-state from DM.  MRESULT is used for debugging purposes to check
-whether the model learns the correct action with a certain hand.
+game-state from the DM. MRESULT is used for debugging purposes to
+check whether the model learns the correct action with a certain hand.
 ACTION is saved to give the model a key to press if it remembers what
 action it took previously with the same hand.
 \\~\\
@@ -61,10 +61,10 @@ action.
 For the 'should-hit' production: \\
 The only additions to this production are that we now also check the
 model's second card, and a test to determine whether the model should
-actually hit or not. This test it simply a check whether the model's
-total hand has a lower value than that of the opponent. If so, the
-model is allowed to hit. This is a somewhat naive approach, but it is
-sufficient to reach a point where the model wins ~39\% of the games
+actually hit or not. This test is simply a check for whether the
+model's total hand has a lower value than that of the opponent. If so,
+the model is allowed to hit. This is a somewhat naive approach, but it
+is sufficient to reach a point where the model wins ~39\% of the games
 played.
 \\~\\
 For the 'should-stay' production: \\
@@ -72,10 +72,10 @@ The only addition to this production is that we now also save the
 second card to our learned information.  This production did not need
 a lot of modification, as it simply needs to get fired when the
 model's total hand is greater than that of the opponent. This happens
-because the should-hit production has a much higher utility function,
-and would thus be fired first. Only when the should-hit production's
-test fails (whether the model's total is lower than that of the
-opponent's) should this production get fired.
+because the should-hit production has a much higher utility value, and
+would thus be fired first. Only when the should-hit production's test
+fails (whether the model's total is lower than that of the opponent's)
+should this production get fired.
 
 \section{(d)}
 \label{sec:d}
