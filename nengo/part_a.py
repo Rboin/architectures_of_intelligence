@@ -1,7 +1,7 @@
 import nengo
 
-def centered_square(x):
-    return (x * x) - 0.5
+def centered_square(a):
+    return (a * a) - 0.5
 
 model = nengo.Network()
 with model:
